@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 # envrn.sh - The ultimate bash task runner
 
-# define any project related variables that should be declared in envrn.sh.
-# (Note: the local .env file will be read to, but this will override it)
-
-export PROJECT_NAME="test-project"
-export VERSION="1.0.0"
-
 # define each task as bash functions
 
 hello() {
