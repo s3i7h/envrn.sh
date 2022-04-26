@@ -73,7 +73,7 @@ There is a pre-defined task `shell`, which executes a new shell that reads .env 
 
 ```
 /path/to/project $ ./envrn.sh shell
-/path/to/project $ envrn.sh env
+/path/to/project $ env
 (... all the envs with .env loaded ...)
 ```
 
