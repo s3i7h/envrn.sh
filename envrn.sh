@@ -46,8 +46,14 @@ __DIR__="$(
 
 cd -P $__DIR__
 
+_load_env() {
+    # load envs declared as ENV_VAR=VALUE in files, process substitutions without overriding existing envs
+    files="$(cat "$@" <(echo) <(declare -x | sed -E 's/^declare -x //g'))"
+    set -a; eval "$files"; set +a;
+}
+
 if [ -e '.env' ];then
-    set -a; eval "$(cat .env <(echo) <(declare -x))"; set +a;
+    _load_env .env
 fi
 
 task=${1:-help}
