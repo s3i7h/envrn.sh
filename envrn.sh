@@ -10,7 +10,7 @@ hello() {
 }
 
 shell() {
-    PATH="$PATH:$__DIR__" exec $SHELL
+    exec $SHELL
 }
 
 # add descriptions to each task
@@ -21,7 +21,7 @@ Usage: envrn.sh TASK|COMMAND [OPTIONS]
 
 TASK:
     hello: shows a greeting message for each user
-    shell: enters a new shell with .env read into, and __DIR__ added to \$PATH
+    shell: enters a new shell with .env read into
     help: show this message
 COMMAND:
     any command that will be run with .env read into
@@ -33,7 +33,9 @@ EOF
 # This script is distributed under the Apache 2.0 License
 # See the full license at https://github.com/yu-ichiro/envrn.sh/blob/main/LICENSE
 
+# save the original PWD
 __PWD__=$PWD
+# save the path of directory which ./envrn.sh is included
 __DIR__="$(
   src="${BASH_SOURCE[0]}"
   while [ -h "$src" ]; do
@@ -43,11 +45,17 @@ __DIR__="$(
   done
   printf %s "$(cd -P "$(dirname "$src")" && pwd)"
 )"
-
+# move to __DIR__
 cd -P $__DIR__
 
+_load_env() {
+    # load envs declared as ENV_VAR=VALUE in files, process substitutions without overriding existing envs
+    files="$(cat "$@" <(echo) <(declare -x | sed -E 's/^declare -x //g'))"
+    set -a; eval "$files"; set +a;
+}
+
 if [ -e '.env' ];then
-    set -a; eval "$(cat .env <(echo) <(declare -x))"; set +a;
+    _load_env .env
 fi
 
 task=${1:-help}

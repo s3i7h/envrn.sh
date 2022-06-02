@@ -69,7 +69,7 @@ The APP_ENV is production
 
 ## 2. Using `envrn.sh shell`
 
-There is a pre-defined task `shell`, which executes a new shell that reads .env into environment variables and adds the project directory to PATH, enabling fluent execution of `envrn.sh`.
+There is a pre-defined task `shell`, which executes a new shell that reads .env into environment variables.
 
 ```
 /path/to/project $ ./envrn.sh shell
